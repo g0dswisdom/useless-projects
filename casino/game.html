@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino</title>
+    <link href="./game.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <h1>The Casino</h1>
+    <audio id="cash" src="cash.mp3"></audio>
+    <p id="money">Money Amount: <span id="moneyAmount">100</span></p>
+    <div class="container">
+        <div class="center">
+          <input type="text" id="betInput"><br><br>
+          <button id="BET AMOUNT" onclick="placeAmount()">PLAY</button>
+          <script>
+            var money = localStorage.getItem('moneyAmount') || 100;
+            document.getElementById('moneyAmount').textContent = money;
+
+            function placeAmount() {
+              var bet = document.getElementById('betInput').value;
+              if (bet === "") { return alert('Invalid bet amount') };
+
+              bet = parseFloat(bet);
+              if (isNaN(bet) || bet <= 0 || bet > money) {
+                alert('Invalid bet amount');
+              } else {
+                var random = Math.floor(Math.random() * 5) + 1;
+                console.log(random);
+                if (random === 1 || random === 4) {
+                  cash.play();
+                  alert('You won!')
+                  money += bet;
+                  document.getElementById('moneyAmount').textContent = money;
+                } else {
+                  alert('You lost!');
+                  money -= bet;
+                  document.getElementById('moneyAmount').textContent = money;
+                }
+                localStorage.setItem('moneyAmount', money);
+              }
+            }
+          </script>
+        </div>
+      </div>
+</body>
+</html>
