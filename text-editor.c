@@ -13,7 +13,6 @@ int main() {
     char answer[3];
     char *input;
     size_t input_size = 1024;
-    //char input[1024] = "";
 
     input = malloc(input_size * sizeof(char));
     if (input == NULL) {
@@ -59,7 +58,12 @@ int main() {
                     putchar('\n');
                     strcat(input, "\n");
                 } else if (irInBuf.Event.KeyEvent.wVirtualKeyCode == 'W' && irInBuf.Event.KeyEvent.dwControlKeyState & (LEFT_CTRL_PRESSED | RIGHT_CTRL_PRESSED)) {
-                    break;
+                    int msgBox = MessageBox(NULL, "Are you sure you want to save and exit?", "Text Editor", MB_YESNO | MB_ICONQUESTION);
+                    if (msgBox == IDYES) {
+                        break;
+                    } else if (msgBox == IDNO) {
+                        continue;
+                    }
                 } else if (isprint(irInBuf.Event.KeyEvent.uChar.AsciiChar)) {
                     putchar(irInBuf.Event.KeyEvent.uChar.AsciiChar);
                     strncat(input, &(irInBuf.Event.KeyEvent.uChar.AsciiChar), 1);
